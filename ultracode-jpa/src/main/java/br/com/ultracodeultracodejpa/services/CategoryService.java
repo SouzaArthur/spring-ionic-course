@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ultracodeultracodejpa.domain.Category;
 import br.com.ultracodeultracodejpa.repositories.CategoryRepository;
+import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -14,10 +15,10 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repo;
 	
-	public Optional<Category> getCategory(Integer id) {
+	public Category getCategory(Integer id) {
 		Optional<Category> obj = repo.findById(id);
 		
-		return obj;
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objecto não encontrado"));
 	}
 	
 }
