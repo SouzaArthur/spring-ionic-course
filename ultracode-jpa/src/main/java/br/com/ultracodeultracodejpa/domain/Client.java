@@ -6,18 +6,33 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
 
+@Entity
 public class Client implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String email;
 	private String cpfOrCnpj;
 	private Integer clientType;
+	
+	@ElementCollection
+	@CollectionTable(name="TELEPHONE")
 	private Set<String> telephones = new HashSet<>();
 	
+	@OneToMany(mappedBy="client")
 	private List<Address> addresses =  new ArrayList<>();
 	
 	public Client() {}
