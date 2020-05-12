@@ -38,6 +38,8 @@ public class Client implements Serializable{
 	@OneToMany(mappedBy="client")
 	private List<Address> addresses =  new ArrayList<>();
 	
+	private List<Order> orders = new ArrayList<>();
+	
 	public Client() {}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientTypeEnum clientType) {
@@ -103,6 +105,14 @@ public class Client implements Serializable{
 
 	public void setTelephones(Set<String> telephones) {
 		this.telephones = telephones;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
