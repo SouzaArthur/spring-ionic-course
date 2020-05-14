@@ -3,9 +3,20 @@ package br.com.ultracodeultracodejpa.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private Date instant;
 	
@@ -13,6 +24,7 @@ public class Order implements Serializable {
 	
 	private Address address;
 	
+	@OneToOne(mappedBy="order", cascade=CascadeType.ALL)
 	private Payment payment;
 	
 	public Order() {
