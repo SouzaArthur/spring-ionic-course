@@ -1,5 +1,6 @@
 package br.com.ultracodeultracodejpa;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,20 @@ import br.com.ultracodeultracodejpa.domain.Address;
 import br.com.ultracodeultracodejpa.domain.Category;
 import br.com.ultracodeultracodejpa.domain.City;
 import br.com.ultracodeultracodejpa.domain.Client;
+import br.com.ultracodeultracodejpa.domain.Order;
+import br.com.ultracodeultracodejpa.domain.Payment;
+import br.com.ultracodeultracodejpa.domain.PaymentBoleto;
+import br.com.ultracodeultracodejpa.domain.PaymentCard;
 import br.com.ultracodeultracodejpa.domain.Product;
 import br.com.ultracodeultracodejpa.domain.State;
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
+import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 import br.com.ultracodeultracodejpa.repositories.AddressRepository;
 import br.com.ultracodeultracodejpa.repositories.CategoryRepository;
 import br.com.ultracodeultracodejpa.repositories.CityRepository;
 import br.com.ultracodeultracodejpa.repositories.ClientRepository;
+import br.com.ultracodeultracodejpa.repositories.OrderRepository;
+import br.com.ultracodeultracodejpa.repositories.PaymentRepository;
 import br.com.ultracodeultracodejpa.repositories.ProductRepository;
 import br.com.ultracodeultracodejpa.repositories.StateRepository;
 
@@ -41,6 +49,12 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(UltracodeJpaApplication.class, args);
@@ -92,6 +106,20 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 		
 		addressRepository.saveAll(Arrays.asList(addr1, addr2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		
+		Order ord1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, addr1);
+		Order ord2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, addr2);
+		
+		Payment pmt1 = new PaymentCard(null, PaymentStatusEnum.QUITADO, ord1, 6);
+		ord1.setPayment(pmt1);
+		Payment pmt2 = new PaymentBoleto(null, PaymentStatusEnum.PENDENTE, ord2, sdf.parse("20/10/2017 00:00"), null);
+		ord2.setPayment(pmt2);
+		
+		cli1.getOrders().addAll(Arrays.asList(ord1, ord2));
+
+		orderRepository.saveAll(Arrays.asList(ord1, ord2));
+		paymentRepository.saveAll(Arrays.asList(pmt1, pmt2));
 		
 	}
 

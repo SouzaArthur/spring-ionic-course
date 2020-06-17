@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
@@ -11,12 +13,13 @@ import javax.persistence.OneToOne;
 import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 
 @Entity
-public class Payment implements Serializable{
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Payment implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private Integer id;
-	private PaymentStatusEnum paymentStatus;
+	private Integer paymentStatus;
 	
 	@OneToOne
 	@JoinColumn(name="id_order")
@@ -28,7 +31,7 @@ public class Payment implements Serializable{
 	public Payment(Integer id, PaymentStatusEnum paymentStatus, Order order) {
 		super();
 		this.id = id;
-		this.paymentStatus = paymentStatus;
+		this.paymentStatus = paymentStatus.getCode();
 		this.order = order;
 	}
 
@@ -41,11 +44,11 @@ public class Payment implements Serializable{
 	}
 
 	public PaymentStatusEnum getPaymentStatus() {
-		return paymentStatus;
+		return PaymentStatusEnum.toEnum(this.paymentStatus);
 	}
 
 	public void setPaymentStatus(PaymentStatusEnum paymentStatus) {
-		this.paymentStatus = paymentStatus;
+		this.paymentStatus = paymentStatus.getCode();
 	}
 
 	public Order getOrder() {

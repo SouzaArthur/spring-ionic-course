@@ -9,9 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-@Entity
+@Entity(name="pedido")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -20,23 +21,26 @@ public class Order implements Serializable {
 	private Integer id;
 	private Date instant;
 	
+	@ManyToOne
+	@JoinColumn(name="id_client")
 	private Client client;
 	
+	@ManyToOne
+	@JoinColumn(name="id_address")
 	private Address address;
 	
-	@OneToOne(mappedBy="order", cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="order")
 	private Payment payment;
 	
 	public Order() {
 	}
 
-	public Order(Integer id, Date instant, Client client, Address address, Payment payment) {
+	public Order(Integer id, Date instant, Client client, Address address) {
 		super();
 		this.id = id;
 		this.instant = instant;
 		this.client = client;
 		this.address = address;
-		this.payment = payment;
 	}
 
 	public Integer getId() {

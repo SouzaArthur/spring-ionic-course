@@ -55,12 +55,12 @@ INDEX VERSION 1.131+C:\Users\Arthur\wokspace\curso-jpa\.metadata\.plugins\org.ec
 1086088353.index
 812727120.index
 2517103861.index
+4030487343.index
 1650994729.index
-1109791570.index
 1719910532.index
 744665907.index
 3396705443.index
-4030487343.index
+1109791570.index
 2460579169.index
 3267485892.index
 3110059180.index
@@ -86,8 +86,8 @@ INDEX VERSION 1.131+C:\Users\Arthur\wokspace\curso-jpa\.metadata\.plugins\org.ec
 1757209572.index
 1331317655.index
 2520277616.index
-2050039937.index
 4083074494.index
+2050039937.index
 97695235.index
 2060725974.index
 852162197.index

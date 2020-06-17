@@ -2,8 +2,11 @@ package br.com.ultracodeultracodejpa.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 
+@Entity
 public class PaymentBoleto extends Payment{
 	private static final long serialVersionUID = 1L;
 	

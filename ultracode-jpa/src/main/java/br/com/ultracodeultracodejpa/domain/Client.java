@@ -38,6 +38,7 @@ public class Client implements Serializable{
 	@OneToMany(mappedBy="client")
 	private List<Address> addresses =  new ArrayList<>();
 	
+	@OneToMany(mappedBy="client")
 	private List<Order> orders = new ArrayList<>();
 	
 	public Client() {}
