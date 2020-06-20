@@ -13,6 +13,7 @@ import br.com.ultracodeultracodejpa.domain.Category;
 import br.com.ultracodeultracodejpa.domain.City;
 import br.com.ultracodeultracodejpa.domain.Client;
 import br.com.ultracodeultracodejpa.domain.Order;
+import br.com.ultracodeultracodejpa.domain.OrderItem;
 import br.com.ultracodeultracodejpa.domain.Payment;
 import br.com.ultracodeultracodejpa.domain.PaymentBoleto;
 import br.com.ultracodeultracodejpa.domain.PaymentCard;
@@ -24,6 +25,7 @@ import br.com.ultracodeultracodejpa.repositories.AddressRepository;
 import br.com.ultracodeultracodejpa.repositories.CategoryRepository;
 import br.com.ultracodeultracodejpa.repositories.CityRepository;
 import br.com.ultracodeultracodejpa.repositories.ClientRepository;
+import br.com.ultracodeultracodejpa.repositories.OrderItemRepository;
 import br.com.ultracodeultracodejpa.repositories.OrderRepository;
 import br.com.ultracodeultracodejpa.repositories.PaymentRepository;
 import br.com.ultracodeultracodejpa.repositories.ProductRepository;
@@ -55,6 +57,9 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(UltracodeJpaApplication.class, args);
@@ -121,6 +126,18 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 		orderRepository.saveAll(Arrays.asList(ord1, ord2));
 		paymentRepository.saveAll(Arrays.asList(pmt1, pmt2));
 		
+		OrderItem ordI1 = new OrderItem(p1, ord1, 0.00, 1, 2000.00);
+		OrderItem ordI2 = new OrderItem(p3, ord1, 0.00, 2, 80.00);
+		OrderItem ordI3 = new OrderItem(p2, ord2, 100.00, 1, 800.00);
+		
+		ord1.getItems().addAll(Arrays.asList(ordI1, ordI2));
+		ord2.getItems().addAll(Arrays.asList(ordI3));
+
+		p1.getItems().addAll(Arrays.asList(ordI1));
+		p2.getItems().addAll(Arrays.asList(ordI2));
+		p3.getItems().addAll(Arrays.asList(ordI3));
+		
+		orderItemRepository.saveAll(Arrays.asList(ordI1, ordI2, ordI3));
 	}
 
 }
