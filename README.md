@@ -1,1 +1,1 @@
-This project contains exercises/project that I am writing following Ionic/JPA course. 
+This project contains exercises/project that I am coding following Ionic/JPA course. 
