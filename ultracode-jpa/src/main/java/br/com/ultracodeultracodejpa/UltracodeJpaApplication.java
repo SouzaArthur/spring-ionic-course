@@ -111,7 +111,7 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 		
 		addressRepository.saveAll(Arrays.asList(addr1, addr2));
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Order ord1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, addr1);
 		Order ord2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, addr2);

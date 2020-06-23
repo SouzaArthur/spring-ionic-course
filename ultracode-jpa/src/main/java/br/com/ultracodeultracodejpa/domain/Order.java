@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name="pedido")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,8 +25,11 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instant;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="id_client")
 	private Client client;
@@ -32,6 +38,7 @@ public class Order implements Serializable {
 	@JoinColumn(name="id_address")
 	private Address address;
 	
+	@JsonManagedReference
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="order")
 	private Payment payment;
 	

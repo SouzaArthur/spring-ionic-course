@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
@@ -38,6 +39,7 @@ public class Client implements Serializable{
 	@OneToMany(mappedBy="client")
 	private List<Address> addresses =  new ArrayList<>();
 	
+	@JsonBackReference
 	@OneToMany(mappedBy="client")
 	private List<Order> orders = new ArrayList<>();
 	

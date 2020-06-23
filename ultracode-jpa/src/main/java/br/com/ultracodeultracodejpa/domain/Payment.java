@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 
 @Entity
@@ -21,6 +23,7 @@ public abstract class Payment implements Serializable{
 	private Integer id;
 	private Integer paymentStatus;
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="id_order")
 	@MapsId
