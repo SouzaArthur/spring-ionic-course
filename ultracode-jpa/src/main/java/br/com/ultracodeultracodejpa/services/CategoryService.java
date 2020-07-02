@@ -1,5 +1,6 @@
 package br.com.ultracodeultracodejpa.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,9 @@ public class CategoryService {
 			throw new DataIntegrityViolation("It's not possible to delete an Entity that depends on another");
 		}
 		
+	}
+	
+	public List<Category> findAll(){
+		return repo.findAll();
 	}
 }

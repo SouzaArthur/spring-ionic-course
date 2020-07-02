@@ -1,6 +1,9 @@
 package br.com.ultracodeultracodejpa.resources;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ultracodeultracodejpa.domain.Category;
+import br.com.ultracodeultracodejpa.dto.CategoryDTO;
 import br.com.ultracodeultracodejpa.services.CategoryService;
 
 @RestController
@@ -47,5 +51,12 @@ public class CategoryResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoryDTO>> findAll(){
+		List<Category> list = service.findAll();
+		List<CategoryDTO> categoryListDTO = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(categoryListDTO);
 	}
 }
