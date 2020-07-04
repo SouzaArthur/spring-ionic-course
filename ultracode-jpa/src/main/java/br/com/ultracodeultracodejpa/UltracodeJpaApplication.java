@@ -69,6 +69,10 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Category cat1 = new Category(null, "Informática");
 		Category cat2 = new Category(null, "Escritório");
+		Category cat3 = new Category(null, "Jardinagem");
+		Category cat4 = new Category(null, "Auto-peças");
+		Category cat5 = new Category(null, "Cosméticos");
+		Category cat6 = new Category(null, "Vestuário");
 		
 		Product p1 = new Product(null, "Computador", 2000.00);
 		Product p2 = new Product(null, "Impressora", 800.00);
@@ -82,7 +86,7 @@ public class UltracodeJpaApplication implements CommandLineRunner {
 		p3.getCategories().addAll(Arrays.asList(cat1));
 		
 		
-		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
 		State st1 = new State(null, "Minas Gerais");
