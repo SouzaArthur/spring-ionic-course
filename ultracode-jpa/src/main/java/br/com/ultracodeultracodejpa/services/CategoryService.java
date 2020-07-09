@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.ultracodeultracodejpa.domain.Category;
+import br.com.ultracodeultracodejpa.dto.CategoryDTO;
 import br.com.ultracodeultracodejpa.repositories.CategoryRepository;
 import br.com.ultracodeultracodejpa.services.exception.DataIntegrityViolation;
 import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
@@ -54,5 +55,9 @@ public class CategoryService {
 	public Page<Category> findPage(Integer page, Integer size, String direction, String properties){
 		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), properties);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Category fromDto(CategoryDTO objDto) {
+		return new Category(objDto.getId(), objDto.getName());
 	}
 }
