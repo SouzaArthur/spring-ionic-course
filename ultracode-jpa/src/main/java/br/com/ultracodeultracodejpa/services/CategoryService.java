@@ -34,8 +34,9 @@ public class CategoryService {
 	}
 	
 	public Category update(Category obj) {
-		this.getCategory(obj.getId());
-		return repo.save(obj);
+		Category newObj = this.getCategory(obj.getId());
+		newObj.setName(obj.getName());
+		return repo.save(newObj);
 	}
 	
 	public void delete(Integer id) {
