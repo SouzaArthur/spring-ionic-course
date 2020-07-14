@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,7 +35,6 @@ public class Client implements Serializable{
 	@CollectionTable(name="TELEPHONE")
 	private Set<String> telephones = new HashSet<>();
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="client")
 	private List<Address> addresses =  new ArrayList<>();
 	
