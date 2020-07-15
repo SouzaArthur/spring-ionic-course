@@ -15,10 +15,10 @@ public class ClientDTO implements Serializable{
 	private Integer id;
 	
 	@NotEmpty(message="Name field is required")
-	@Length(min=5, max=120, message="The name should be between 5 and 120 characters")
+	@Length(min=5, max=120, message="The name should have between 5 and 120 characters")
 	private String name;
 	
-	@NotEmpty(message="Email field should not be empty")
+	@NotEmpty(message="Email field is required")
 	@Email(message="Email is not valid")
 	private String email;
 	

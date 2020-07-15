@@ -2,23 +2,46 @@ package br.com.ultracodeultracodejpa.dto;
 
 import java.io.Serializable;
 
-import br.com.ultracodeultracodejpa.domain.City;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.com.ultracodeultracodejpa.services.customvalidators.CpfOrCnpjValidator;
 
 public class ClientNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message="Name field is required")
+	@Length(min=5, max=100, message="The name should have between 5 and 120 characters")
 	private String name;
+	
+	@NotEmpty(message="Email field is required")
+	@Email(message="Email field is required")
 	private String email;
+	
+	@NotEmpty(message="cpf or cnpj is required")
+	@CpfOrCnpjValidator
 	private String cpfOrCnpj;
+	
 	private Integer clientType;
+	
+	@NotEmpty(message="phone is required")
 	private String phone;
+	
 	private String phone2;
 	private String phone3;
 	
+	@NotEmpty(message="logradouro is required")
 	private String logradouro;
+	
+	@NotEmpty(message="numero is required")
 	private String numero;
+	
 	private String complemento;
 	private String bairro;
+	
+	@NotEmpty(message="cep is required")
 	private String cep;
 	
 	private Integer cityId;
