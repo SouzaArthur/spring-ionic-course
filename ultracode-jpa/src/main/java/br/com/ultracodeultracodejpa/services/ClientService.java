@@ -36,7 +36,7 @@ public class ClientService {
 	public Client getClient(Integer id) {
 		Optional<Client> obj = repo.findById(id);
 		
-		return obj.orElseThrow(() -> new ObjectNotFoundException("No object finded with the provided id."));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("No object found with provided id."));
 	}
 	
 	public void delete(Integer id) {

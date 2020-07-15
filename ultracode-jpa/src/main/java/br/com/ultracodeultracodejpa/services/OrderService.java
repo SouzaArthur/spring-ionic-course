@@ -18,6 +18,6 @@ public class OrderService {
 	public Order getOrder(Integer id) {
 		Optional<Order> obj = orderRepository.findById(id);
 		
-		return obj.orElseThrow(() -> new ObjectNotFoundException("No object finded with the provided id."));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("No object found with provided id."));
 	}
 }
