@@ -5,15 +5,15 @@ import java.util.List;
 public class FieldsValidation extends StandardError{
 	private static final long serialVersionUID = 1L;
 
-	private List<FieldName> nameAndMessage;
+	private List<FieldName> nameAndMessageList;
 	
-	public FieldsValidation(Integer status, String msg, Long timeStamp, List<FieldName> nameAndMessage) {
+	public FieldsValidation(Integer status, String msg, Long timeStamp, List<FieldName> nameAndMessageList) {
 		super(status, msg, timeStamp);
-		this.nameAndMessage = nameAndMessage;
+		this.nameAndMessageList = nameAndMessageList;
 	}
 	
 	public List<FieldName> getErrors() {
-		return nameAndMessage;
+		return nameAndMessageList;
 	}
 	
 }

@@ -7,5 +7,6 @@ import br.com.ultracodeultracodejpa.domain.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer>{
-
+	
+	public Client findByEmail(String email);
 }

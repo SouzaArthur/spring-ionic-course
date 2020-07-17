@@ -20,6 +20,7 @@ import br.com.ultracodeultracodejpa.dto.ClientNewDTO;
 import br.com.ultracodeultracodejpa.repositories.AddressRepository;
 import br.com.ultracodeultracodejpa.repositories.ClientRepository;
 import br.com.ultracodeultracodejpa.services.exception.DataIntegrityViolation;
+import br.com.ultracodeultracodejpa.services.exception.EmailAlreadyExists;
 import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
 
 @Service
@@ -94,6 +95,12 @@ public class ClientService {
 	@Transactional
 	public Client insert(Client obj) {
 		obj.setId(null);
+		
+		//Verifying if email already exists
+		Client clientWithTheGivenEmail = repo.findByEmail(obj.getEmail());
+		if(clientWithTheGivenEmail != null) {
+			throw new EmailAlreadyExists("The given e-mail already exists");
+		}
 		//Saving Client
 		repo.save(obj);
 		//Saving Address

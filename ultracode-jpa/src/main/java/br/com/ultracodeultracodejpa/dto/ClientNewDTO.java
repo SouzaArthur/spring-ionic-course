@@ -2,6 +2,7 @@ package br.com.ultracodeultracodejpa.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -16,6 +17,7 @@ public class ClientNewDTO implements Serializable{
 	@Length(min=5, max=100, message="The name should have between 5 and 120 characters")
 	private String name;
 	
+	@Column(unique=true)
 	@NotEmpty(message="Email field is required")
 	@Email(message="Email field is required")
 	private String email;

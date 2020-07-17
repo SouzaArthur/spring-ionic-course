@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.ultracodeultracodejpa.services.exception.DataIntegrityViolation;
 import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
+import br.com.ultracodeultracodejpa.services.exception.EmailAlreadyExists;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -39,6 +40,15 @@ public class ResourceExceptionHandler {
 		}
 		
 		FieldsValidation err = new FieldsValidation(HttpStatus.BAD_REQUEST.value(), "Fields with error or missing", System.currentTimeMillis(), fieldNameList);		
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(EmailAlreadyExists.class)
+	public ResponseEntity<FieldsValidation> emailAlreadyExists(EmailAlreadyExists e, HttpServletRequest request){
+		List<FieldName> fieldName = new ArrayList<>();
+		fieldName.add(0, new FieldName("email", "The given email already exists"));
+		FieldsValidation err = new FieldsValidation(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis(), fieldName);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
