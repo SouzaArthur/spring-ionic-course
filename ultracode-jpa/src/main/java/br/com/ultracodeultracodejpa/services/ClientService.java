@@ -55,6 +55,11 @@ public class ClientService {
 	
 	public Client update(Client obj) {
 		Optional<Client> newObj = repo.findById(obj.getId());
+		//Verifying if email already exists
+		Client clientWithTheGivenEmail = repo.findByEmail(obj.getEmail());
+		if(clientWithTheGivenEmail != null && clientWithTheGivenEmail.getId() != newObj.get().getId()) {
+			throw new EmailAlreadyExists("The given e-mail already exists");
+		}
 		newObj.get().setName(obj.getName());
 		newObj.get().setEmail(obj.getEmail());
 		return repo.save(newObj.get());
