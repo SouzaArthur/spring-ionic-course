@@ -70,6 +70,10 @@ public class OrderItem implements Serializable{
 	public Order getOrder(){
 		return id.getOrder();
 	}
+	
+	public double getSubTotal() {
+		return (price - discount) * amount;
+	}
 
 	@Override
 	public int hashCode() {
