@@ -1,8 +1,11 @@
 package br.com.ultracodeultracodejpa.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 
 @Entity(name="pedido")
 public class Order implements Serializable {
@@ -134,6 +139,28 @@ public class Order implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order number: ");
+		builder.append(getId());
+		builder.append(", Instant: ");
+		builder.append(sdf.format(getInstant()));
+		builder.append(", Client: ");
+		builder.append(getClient().getName());
+		builder.append(", Payment Situation: ");
+		builder.append(PaymentStatusEnum.toEnum(getPayment().getPaymentStatus().getCode()));
+		builder.append("\nDetails:\n");
+		for (OrderItem od : getItems()) {
+			builder.append(od.toString());
+		}
+		builder.append("Final price: ");
+		builder.append(nf.format(getTotal()));
+		return builder.toString();
 	}
 
 }

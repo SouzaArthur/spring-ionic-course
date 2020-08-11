@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.ultracodeultracodejpa.domain.Order;
 import br.com.ultracodeultracodejpa.domain.OrderItem;
 import br.com.ultracodeultracodejpa.domain.PaymentBoleto;
-import br.com.ultracodeultracodejpa.domain.PaymentCard;
 import br.com.ultracodeultracodejpa.domain.Product;
 import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 import br.com.ultracodeultracodejpa.repositories.OrderItemRepository;
@@ -35,6 +34,9 @@ public class OrderService {
 	@Autowired 
 	OrderItemRepository orderItemRepository;
 	
+	@Autowired
+	ClientService clientService;
+	
 	public Order getOrder(Integer id) {
 		Optional<Order> obj = orderRepository.findById(id);
 		
@@ -44,6 +46,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.getClient(obj.getClient().getId()));
 		obj.getPayment().setPaymentStatus(PaymentStatusEnum.PENDENTE);
 		obj.getPayment().setOrder(obj);
 		if (obj.getPayment() instanceof PaymentBoleto) {
@@ -56,9 +59,11 @@ public class OrderService {
 			ordI.setDiscount(0.0);
 			Product productReturned = productService.findById(ordI.getProduct().getId());
 			ordI.setPrice(productReturned.getPrice());
+			ordI.setProduct(productService.findById(ordI.getProduct().getId()));
 			ordI.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
+		System.out.println(obj);
 		return obj;
 	}
 }
