@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.ultracodeultracodejpa.services.DBService;
+import br.com.ultracodeultracodejpa.services.EmailService;
+import br.com.ultracodeultracodejpa.services.MockMailService;
 
 @Configuration
 @Profile("test")
@@ -20,5 +22,10 @@ public class TestConfig {
 	public boolean initiateDataBase() throws ParseException {
 		dbService.initiateDataBase();
 		return true;
+	}
+	
+	@Bean
+	public EmailService emailService(){
+		return new MockMailService();
 	}
 }

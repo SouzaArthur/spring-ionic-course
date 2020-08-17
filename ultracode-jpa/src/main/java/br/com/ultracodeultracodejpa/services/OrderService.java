@@ -37,6 +37,9 @@ public class OrderService {
 	@Autowired
 	ClientService clientService;
 	
+	@Autowired
+	EmailService emailService;
+	
 	public Order getOrder(Integer id) {
 		Optional<Order> obj = orderRepository.findById(id);
 		
@@ -63,7 +66,7 @@ public class OrderService {
 			ordI.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
-		System.out.println(obj);
+		emailService.sendOrderConfirmationMail(obj);
 		return obj;
 	}
 }
