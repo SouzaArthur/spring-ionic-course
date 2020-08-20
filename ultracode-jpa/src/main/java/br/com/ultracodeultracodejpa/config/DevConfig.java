@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.ultracodeultracodejpa.services.DBService;
+import br.com.ultracodeultracodejpa.services.EmailService;
+import br.com.ultracodeultracodejpa.services.SmtpMailService;
 
 @Configuration
 @Profile("dev")
@@ -27,5 +29,10 @@ public class DevConfig {
 			return true;
 		}
 		return false;
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpMailService();
 	}
 }

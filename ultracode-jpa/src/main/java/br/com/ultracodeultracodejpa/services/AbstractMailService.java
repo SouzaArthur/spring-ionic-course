@@ -1,5 +1,7 @@
 package br.com.ultracodeultracodejpa.services;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -20,6 +22,7 @@ public abstract class AbstractMailService implements EmailService{
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getClient().getEmail());
 		sm.setFrom(emailFrom);
+		sm.setSentDate(new Date(System.currentTimeMillis()));
 		sm.setSubject("Order Confirmation");
 		sm.setText(obj.toString());
 		return sm;
