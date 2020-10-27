@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,6 +30,7 @@ public class Client implements Serializable{
 	private String email;
 	private String cpfOrCnpj;
 	private Integer clientType;
+	private String password;
 	
 	@ElementCollection
 	@CollectionTable(name="TELEPHONE")
@@ -45,13 +45,14 @@ public class Client implements Serializable{
 	
 	public Client() {}
 
-	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientTypeEnum clientType) {
+	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientTypeEnum clientType, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.clientType = clientType == null ? null : clientType.getCode();
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -116,6 +117,14 @@ public class Client implements Serializable{
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

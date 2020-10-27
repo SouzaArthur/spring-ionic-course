@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,9 @@ public class ClientService {
 	@Autowired
 	AddressRepository addressRepository;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;  
+	
 	public Client getClient(Integer id) {
 		Optional<Client> obj = repo.findById(id);
 		
@@ -50,7 +54,7 @@ public class ClientService {
 	}
 	
 	public Client fromDto(ClientDTO objDto) {
-		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
+		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null, objDto.getPassword());
 	}
 	
 	public Client update(Client obj) {
@@ -62,6 +66,10 @@ public class ClientService {
 		}
 		newObj.get().setName(obj.getName());
 		newObj.get().setEmail(obj.getEmail());
+		
+		//Encrypting password
+		newObj.get().setPassword(bCryptPasswordEncoder.encode(obj.getPassword()));
+		
 		return repo.save(newObj.get());
 	}
 	
@@ -77,7 +85,7 @@ public class ClientService {
 	public Client fromDto(ClientNewDTO objDto) {
 		//Creating client object
 		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), 
-				ClientTypeEnum.toEnum(objDto.getClientType()));
+				ClientTypeEnum.toEnum(objDto.getClientType()), objDto.getPassword());
 		//Getting the corresponding city
 		City city = new City(objDto.getCityId(), null, null);
 		//Creating Address object
@@ -106,6 +114,10 @@ public class ClientService {
 		if(clientWithTheGivenEmail != null) {
 			throw new EmailAlreadyExists("The given e-mail already exists");
 		}
+		
+		//Encrypting password
+		obj.setPassword(bCryptPasswordEncoder.encode(obj.getPassword()));
+		
 		//Saving Client
 		repo.save(obj);
 		//Saving Address

@@ -8,6 +8,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.ultracodeultracodejpa.services.customvalidators.CpfOrCnpjValidator;
 
 public class ClientNewDTO implements Serializable{
@@ -48,10 +50,14 @@ public class ClientNewDTO implements Serializable{
 	
 	private Integer cityId;
 	
+	@JsonIgnore
+	@NotEmpty(message="password is required")
+	private String password;
+	
 	public ClientNewDTO() {}
 
 	public ClientNewDTO(String name, String email, String cpfOrCnpj, Integer clientType, String logradouro,
-			String numero, String complemento, String bairro, String cep, Integer cityId, String phone) {
+			String numero, String complemento, String bairro, String cep, Integer cityId, String phone, String password) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -64,6 +70,7 @@ public class ClientNewDTO implements Serializable{
 		this.cep = cep;
 		this.cityId = cityId;
 		this.phone = phone;
+		this.password = password;
 	}
 
 	public String getPhone() {
@@ -168,5 +175,13 @@ public class ClientNewDTO implements Serializable{
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
