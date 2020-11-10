@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +21,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
+import br.com.ultracodeultracodejpa.domain.enums.RolesEnum;
 
 @Entity
 public class Client implements Serializable{
@@ -43,7 +47,13 @@ public class Client implements Serializable{
 	@OneToMany(mappedBy="client")
 	private List<Order> orders = new ArrayList<>();
 	
-	public Client() {}
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="ROLES")
+	private Set<Integer> roles = new HashSet<>();
+	
+	public Client() {
+		this.setRole(RolesEnum.CLIENT);
+	}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientTypeEnum clientType, String password) {
 		super();
@@ -53,6 +63,7 @@ public class Client implements Serializable{
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.clientType = clientType == null ? null : clientType.getCode();
 		this.password = password;
+		this.setRole(RolesEnum.CLIENT);
 	}
 
 	public Integer getId() {
@@ -125,6 +136,14 @@ public class Client implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<RolesEnum> getRoles() {
+		return this.roles.stream().map(x -> RolesEnum.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void setRole(RolesEnum role) {
+		this.roles.add(role.getCode());
 	}
 
 	@Override

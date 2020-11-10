@@ -21,6 +21,7 @@ import br.com.ultracodeultracodejpa.domain.Product;
 import br.com.ultracodeultracodejpa.domain.State;
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
 import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
+import br.com.ultracodeultracodejpa.domain.enums.RolesEnum;
 import br.com.ultracodeultracodejpa.repositories.AddressRepository;
 import br.com.ultracodeultracodejpa.repositories.CategoryRepository;
 import br.com.ultracodeultracodejpa.repositories.CityRepository;
@@ -128,12 +129,18 @@ public class DBService {
 		
 		cli1.getTelephones().addAll(Arrays.asList("942424242", "845452362"));
 		
+		Client cli2 = new Client(null, "Carolina Paes", "teste@teste.br.br.br", "18965409020", ClientTypeEnum.PESSOAFISICA, bCryptPasswordEncoder.encode("senhaForte"));
+		cli2.getTelephones().addAll(Arrays.asList("94242123", "845121361"));
+		cli2.setRole(RolesEnum.ADMIN);
+		
 		Address addr1 = new Address(null, "Rua Flores", "203", "Apto 208", "Jardim", "06948250", cli1, c1);
 		Address addr2 = new Address(null, "Fim do universo", "42", "Restaurante", "Fim", "42424242", cli1, c2);
+		Address addr3 = new Address(null, "Quadrado do Cateto", "42", "Restaurante", "Fim", "42424242", cli2, c2);
 		
-		cli1.getAddresses().addAll(Arrays.asList(addr1, addr2));
 		
-		clientRepository.save(cli1);
+		cli1.getAddresses().addAll(Arrays.asList(addr1, addr2, addr3));
+		
+		clientRepository.saveAll(Arrays.asList(cli1, cli2));
 		
 		addressRepository.saveAll(Arrays.asList(addr1, addr2));
 		
