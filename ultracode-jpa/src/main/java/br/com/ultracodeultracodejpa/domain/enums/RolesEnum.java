@@ -6,13 +6,19 @@ public enum RolesEnum {
 	ADMIN(2, "ROLE_ADMIN");
 	
 	private int code;
+	private String description;
 
-	private RolesEnum(Integer code, String role) {
+	private RolesEnum(Integer code, String description) {
 		this.code = code;
+		this.description = description;
 	}
 	
 	public int getCode() {
 		return code;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	public static RolesEnum toEnum(Integer code) {

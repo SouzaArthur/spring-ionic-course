@@ -125,11 +125,11 @@ public class DBService {
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
-		Client cli1 = new Client(null, "Arthur Souza", "arthurdeveloperjava@gmail.com", "44878966532", ClientTypeEnum.PESSOAFISICA, bCryptPasswordEncoder.encode("senhaForte"));
+		Client cli1 = new Client(null, "Arthur Souza", "arthurdeveloperjava@gmail.com", "44878966532", ClientTypeEnum.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
 		
 		cli1.getTelephones().addAll(Arrays.asList("942424242", "845452362"));
 		
-		Client cli2 = new Client(null, "Carolina Paes", "teste@teste.br.br.br", "18965409020", ClientTypeEnum.PESSOAFISICA, bCryptPasswordEncoder.encode("senhaForte"));
+		Client cli2 = new Client(null, "Carolina Paes", "teste@teste.br.br.br", "18965409020", ClientTypeEnum.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
 		cli2.getTelephones().addAll(Arrays.asList("94242123", "845121361"));
 		cli2.setRole(RolesEnum.ADMIN);
 		
