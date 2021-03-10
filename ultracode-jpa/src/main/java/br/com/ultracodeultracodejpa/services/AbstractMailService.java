@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
+import br.com.ultracodeultracodejpa.domain.Client;
 import br.com.ultracodeultracodejpa.domain.Order;
 
 public abstract class AbstractMailService implements EmailService{
@@ -25,6 +26,22 @@ public abstract class AbstractMailService implements EmailService{
 		sm.setSentDate(new Date(System.currentTimeMillis()));
 		sm.setSubject("Order Confirmation");
 		sm.setText(obj.toString());
+		return sm;
+	}
+	
+	@Override
+	public void sendNewPasswordEmail(Client client, String newPass) {
+		SimpleMailMessage sm = prepareNewPasswordEmail(client, newPass);
+		sendMail(sm);
+	}
+
+	protected SimpleMailMessage prepareNewPasswordEmail(Client client, String newPass) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(client.getEmail());
+		sm.setFrom(emailFrom);
+		sm.setSubject("Solicitação de nova senha");
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Nova senha: " + newPass);
 		return sm;
 	}
 }
