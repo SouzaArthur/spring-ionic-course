@@ -4,8 +4,12 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.ultracodeultracodejpa.domain.Client;
 import br.com.ultracodeultracodejpa.domain.Order;
 import br.com.ultracodeultracodejpa.domain.OrderItem;
 import br.com.ultracodeultracodejpa.domain.PaymentBoleto;
@@ -14,6 +18,8 @@ import br.com.ultracodeultracodejpa.domain.enums.PaymentStatusEnum;
 import br.com.ultracodeultracodejpa.repositories.OrderItemRepository;
 import br.com.ultracodeultracodejpa.repositories.OrderRepository;
 import br.com.ultracodeultracodejpa.repositories.PaymentRepository;
+import br.com.ultracodeultracodejpa.security.UserSS;
+import br.com.ultracodeultracodejpa.services.exception.AuthorizationException;
 import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
 
 @Service
@@ -68,5 +74,15 @@ public class OrderService {
 		orderItemRepository.saveAll(obj.getItems());
 		emailService.sendOrderConfirmationMail(obj);
 		return obj;
+	}
+	
+	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Client cliente =  clientService.getClient(user.getId());
+		return orderRepository.findByClient(cliente, pageRequest);
 	}
 }
