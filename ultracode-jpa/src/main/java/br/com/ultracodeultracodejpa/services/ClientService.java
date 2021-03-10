@@ -16,10 +16,13 @@ import br.com.ultracodeultracodejpa.domain.Address;
 import br.com.ultracodeultracodejpa.domain.City;
 import br.com.ultracodeultracodejpa.domain.Client;
 import br.com.ultracodeultracodejpa.domain.enums.ClientTypeEnum;
+import br.com.ultracodeultracodejpa.domain.enums.RolesEnum;
 import br.com.ultracodeultracodejpa.dto.ClientDTO;
 import br.com.ultracodeultracodejpa.dto.ClientNewDTO;
 import br.com.ultracodeultracodejpa.repositories.AddressRepository;
 import br.com.ultracodeultracodejpa.repositories.ClientRepository;
+import br.com.ultracodeultracodejpa.security.UserSS;
+import br.com.ultracodeultracodejpa.services.exception.AuthorizationException;
 import br.com.ultracodeultracodejpa.services.exception.DataIntegrityViolation;
 import br.com.ultracodeultracodejpa.services.exception.EmailAlreadyExists;
 import br.com.ultracodeultracodejpa.services.exception.ObjectNotFoundException;
@@ -39,6 +42,10 @@ public class ClientService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;  
 	
 	public Client getClient(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(RolesEnum.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		Optional<Client> obj = repo.findById(id);
 		
 		return obj.orElseThrow(() -> new ObjectNotFoundException("No object found with provided id."));
